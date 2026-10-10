@@ -1,0 +1,20 @@
+# Free, durable scheduler for check-in emails and deletion retries.
+# Requires repository secrets APP_URL (e.g. https://context.example) and CRON_SECRET.
+# GitHub may delay scheduled runs by several minutes; check-ins have a 6-hour send window.
+name: Check-in dispatcher
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    if: ${{ vars.CHECKINS_ENABLED == 'true' }}
+    steps:
+      - name: Call the dispatcher
+        run: |
+          curl --fail --silent --show-error --max-time 60 \
+            -X POST -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${{ secrets.APP_URL }}/api/cron/dispatch"
