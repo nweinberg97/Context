@@ -171,10 +171,10 @@ begin
   -- UPDATE
   if new.status = 'active' and old.status in ('draft', 'rejected') then
     new.approved_at := now();
+  elsif new.status = 'draft' and old.status in ('active', 'archived') then
+    raise exception 'An approved habit cannot silently return to draft' using errcode = 'check_violation';
   elsif new.status in ('draft', 'rejected') then
-    if old.status in ('active', 'archived') then
-      raise exception 'An approved habit cannot return to review' using errcode = 'check_violation';
-    end if;
+    -- Leaving a habit out (even after approving it) is an explicit choice; it clears approval.
     new.approved_at := null;
   else
     new.approved_at := old.approved_at;

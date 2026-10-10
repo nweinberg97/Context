@@ -179,6 +179,10 @@ select test.ok((select name = 'Mobility drill' and status = 'active' and approve
 
 select test.fails($$update public.habits set status = 'draft' where id = current_setting('test.habit')::uuid$$,
                   'approved habits cannot silently return to draft');
+update public.habits set status = 'rejected' where id = :'habit_id';
+select test.ok((select status = 'rejected' and approved_at is null from public.habits where id = :'habit_id'),
+               'leaving out an approved habit clears its approval');
+update public.habits set status = 'active' where id = :'habit_id';
 
 insert into public.habit_events (habit_id, occurred_on, state)
   values (:'habit_id', current_date, 'done');

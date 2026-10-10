@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+/* Bricolage Grotesque (SIL OFL 1.1), self-hosted: variable opsz 12-96, wght 200-800, wdth 75-100. */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/fonts/bricolage-grotesque-latin.woff") format("woff");
+  font-weight: 200 800;
+  font-stretch: 75% 100%;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+ * Context design tokens.
+ * One typeface (Bricolage Grotesque) carries display and body. One accent — the
+ * highlighter — marks what came from a message. Forest ink on warm paper does the rest.
+ */
+@theme {
+  --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-paper: #f7f6f1;
+  --color-paper-2: #efeee6;
+  --color-white: #ffffff;
+  --color-ink: #263a31;
+  --color-ink-2: #3c5045;
+  --color-forest: #16271e;
+  --color-forest-2: #213a2d;
+  --color-sage: #dce7d9;
+  --color-sage-2: #c6d6c1;
+  --color-muted: #5f6b63;
+  --color-line: #e4e6df;
+  --color-line-2: #d3d7cc;
+  --color-mark: #f6d35b;
+  --color-mark-2: #fbe9a6;
+  --color-danger: #9b3b2b;
+  --color-danger-soft: #f6e4df;
+
+  --text-display: clamp(2.75rem, 1.2rem + 6.4vw, 6.25rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.035em;
+  --text-title: clamp(2rem, 1.3rem + 2.6vw, 3.25rem);
+  --text-title--line-height: 1;
+  --text-title--letter-spacing: -0.03em;
+  --text-heading: clamp(1.375rem, 1.15rem + 0.8vw, 1.75rem);
+  --text-heading--line-height: 1.12;
+  --text-heading--letter-spacing: -0.02em;
+
+  --radius-card: 1.25rem;
+  --radius-field: 0.75rem;
+
+  --shadow-card: 0 1px 0 rgb(38 58 49 / 0.04), 0 8px 24px -16px rgb(38 58 49 / 0.25);
+  --shadow-lift: 0 2px 0 rgb(38 58 49 / 0.05), 0 22px 44px -24px rgb(22 39 30 / 0.45);
+
+}
+
+@keyframes ctx-swipe {
+  from { background-size: 0% 100%; }
+  to { background-size: 100% 100%; }
+}
+@keyframes ctx-rise {
+  from { opacity: 0; transform: translateY(14px) rotate(-1.5deg); }
+  to { opacity: 1; transform: translateY(0) rotate(var(--tilt, 0deg)); }
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+  h1, h2, h3 {
+    font-weight: 800;
+    text-wrap: balance;
+  }
+  /* Big type runs slightly condensed: more words per line, more presence. */
+  .text-display, .text-title {
+    font-stretch: 86%;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--color-mark);
+    color: var(--color-forest);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  .on-dark :focus-visible {
+    outline-color: var(--color-mark);
+  }
+}
+
+@layer components {
+  /* The highlighter: marks words that came from a message. */
+  .mark {
+    background-image: linear-gradient(
+      100deg,
+      transparent 0.2em,
+      var(--color-mark) 0.35em,
+      var(--color-mark) calc(100% - 0.35em),
+      transparent calc(100% - 0.2em)
+    );
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: 0 0;
+    padding: 0.04em 0.18em 0.08em;
+    margin: 0 -0.06em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    border-radius: 0.3em 0.15em 0.35em 0.2em;
+    color: var(--color-forest);
+  }
+  .mark-soft {
+    background-color: var(--color-mark-2);
+    background-image: none;
+  }
+  .mark-swipe {
+    animation: ctx-swipe 900ms cubic-bezier(0.7, 0, 0.2, 1) var(--delay, 0ms) both;
+  }
+  .rise-in {
+    animation: ctx-rise 600ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0ms) both;
+  }
+
+  .field {
+    @apply w-full rounded-[var(--radius-field)] border border-line-2 bg-white px-3.5 py-2.5 text-[1rem] text-ink;
+    @apply placeholder:text-muted/70 transition-[border-color,box-shadow] duration-150;
+  }
+  .field:hover {
+    border-color: var(--color-muted);
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-ink);
+    box-shadow: 0 0 0 3px rgb(38 58 49 / 0.15);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-danger);
+  }
+  .field:disabled {
+    @apply bg-paper-2 text-muted cursor-not-allowed;
+  }
+
+  .card {
+    @apply rounded-[var(--radius-card)] border border-line bg-white;
+    box-shadow: var(--shadow-card);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .mark-swipe, .rise-in { animation: none !important; }
+}
+
+/* One-page print layout: the routine as a sheet you can stick on the fridge. */
+@media print {
+  @page { margin: 14mm; }
+  body { background: #fff; font-size: 11pt; }
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  .card { box-shadow: none; border-color: #c9ccc2; break-inside: avoid; }
+  .mark { background-image: none; background-color: transparent; text-decoration: underline 2px #b99a2a; padding: 0; }
+  a { color: inherit; text-decoration: none; }
+}
+.print-only { display: none; }
