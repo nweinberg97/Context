@@ -256,7 +256,9 @@ export function parseSelectedText(raw: string, providedTitle?: string | null): P
   }
 
   const flags = new Set<ParseFlag>();
-  let { text, removedControl } = normalize(raw);
+  const normalized = normalize(raw);
+  const removedControl = normalized.removedControl;
+  let text = normalized.text;
   if (removedControl) flags.add("control_characters_removed");
 
   if (looksLikeHtml(text)) {

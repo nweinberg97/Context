@@ -51,7 +51,7 @@ export function createAnthropicProvider(config: {
             messages: [{ role: "user", content: buildUserMessage(input) }],
           }),
         });
-      } catch (error) {
+      } catch {
         if (signal.aborted) throw new ExtractionError("provider_timeout", true, "Extraction timed out.");
         throw new ExtractionError("provider_unavailable", true, "Could not reach the extraction provider.");
       }
