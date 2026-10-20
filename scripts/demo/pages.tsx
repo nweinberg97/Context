@@ -15,6 +15,7 @@ import { TodayView } from "@/components/today/today-view";
 import { IconDownload } from "@/components/icons";
 import { Notice, PageHeader, Wordmark, buttonClass } from "@/components/ui";
 import type { Habit, HabitEvent, RoutineWithHabits } from "@/lib/domain/types";
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 let seq = 0;
@@ -86,14 +87,14 @@ function AuthScreen({ mode }: { mode: "sign-in" | "sign-up" }) {
   return (
     <div className="grid min-h-dvh lg:grid-cols-[1fr_1.1fr]">
       <aside className="on-dark relative hidden flex-col justify-between overflow-hidden bg-forest p-12 text-paper lg:flex">
-        <a href="/" aria-label="Context home" className="text-[1.25rem]"><Wordmark tone="paper" /></a>
+        <Link href="/" aria-label="Context home" className="text-[1.25rem]"><Wordmark tone="paper" /></Link>
         <p className="text-title max-w-[14ch] font-extrabold">
           The advice you paid for, <span className="mark">on one page.</span>
         </p>
         <p className="max-w-sm text-paper/70">Paste what your physio, coach or tutor sent. Approve the habits. Check in each day.</p>
       </aside>
       <main id="main" tabIndex={-1} className="flex flex-col px-4 py-8 sm:px-10">
-        <a href="/" aria-label="Context home" className="text-[1.15rem] lg:hidden"><Wordmark /></a>
+        <Link href="/" aria-label="Context home" className="text-[1.15rem] lg:hidden"><Wordmark /></Link>
         <div className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center py-12">
           <h1 className="text-title">{mode === "sign-up" ? "Start your first routine." : "Welcome back."}</h1>
           <p className="mb-8 mt-3 text-muted">
@@ -180,9 +181,9 @@ export async function demoPages(): Promise<DemoPage[]> {
           <h1 className="text-title">Neck &amp; shoulders</h1>
           <p className="mt-3 text-muted">From Marina Chen, Northside Physio</p>
           <div className="mt-5 flex flex-wrap items-center gap-3">
-            <a href="/routines/r1/pdf" className={buttonClass("primary")}>
+            <Link href="/routines/r1/pdf" className={buttonClass("primary")}>
               <IconDownload size={18} /> Download PDF
-            </a>
+            </Link>
             <span className="text-sm text-muted">One page with your approved habits, in the advisor&rsquo;s words, ready to print.</span>
           </div>
           <div className="mb-4 mt-10 flex flex-wrap items-baseline justify-between gap-2">
