@@ -174,3 +174,22 @@ test("keyboard: skip link and form controls are reachable", async ({ page }) => 
   await page.keyboard.press("Tab");
   await expect(page.getByLabel("Email")).toBeFocused();
 });
+
+test("every routine downloads as a PDF, only for its owner", async ({ page, browser }) => {
+  await newUserWithRoutine(page, "pdf");
+  const routineId = new URL(page.url()).searchParams.get("saved")!;
+  await expect(page.getByRole("link", { name: "Download it as a PDF" })).toBeVisible();
+
+  const res = await page.request.get(`/routines/${routineId}/pdf`);
+  expect(res.status()).toBe(200);
+  expect(res.headers()["content-type"]).toBe("application/pdf");
+  expect(res.headers()["content-disposition"]).toMatch(/attachment; filename="physio-week-3-routine\.pdf"/);
+  expect((await res.body()).subarray(0, 8).toString()).toBe("%PDF-1.7");
+
+  const other = await browser.newContext();
+  const otherPage = await other.newPage();
+  await signUp(otherPage, uniqueEmail("pdf-intruder"));
+  const denied = await otherPage.request.get(`/routines/${routineId}/pdf`);
+  expect(denied.status()).toBe(404);
+  await other.close();
+});

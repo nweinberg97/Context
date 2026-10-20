@@ -5,8 +5,8 @@ import { deleteRoutineAction, setRoutineStatusAction } from "@/app/(app)/habit-a
 import { AddHabit } from "@/components/habits/add-habit";
 import { ConfirmSubmit, SubmitButton } from "@/components/habits/confirm-button";
 import { HabitRow } from "@/components/habits/habit-row";
-import { IconArchive, IconArrowLeft, IconTrash } from "@/components/icons";
-import { Notice } from "@/components/ui";
+import { IconArchive, IconArrowLeft, IconDownload, IconTrash } from "@/components/icons";
+import { Notice, buttonClass } from "@/components/ui";
 import { requireViewer } from "@/lib/auth/session";
 import { eventsBetween, shiftDate } from "@/lib/domain/events";
 import { getImport } from "@/lib/domain/imports";
@@ -42,6 +42,17 @@ export default async function RoutinePage({ params }: { params: Promise<{ routin
         <IconArrowLeft size={18} /> All routines
       </Link>
       <RenameRoutine routineId={routine.id} title={routine.title} />
+      {active.length ? (
+        <div className="no-print mt-5 flex flex-wrap items-center gap-3">
+          <a href={`/routines/${routine.id}/pdf`} className={buttonClass("primary")}>
+            <IconDownload size={18} /> Download PDF
+          </a>
+          <a href={`/routines/${routine.id}/pdf?view=1`} target="_blank" rel="noopener" className="font-semibold underline underline-offset-4">
+            Open in a new tab
+          </a>
+          <span className="text-sm text-muted">One page with your approved habits, in the advisor&rsquo;s words, ready to print.</span>
+        </div>
+      ) : null}
 
       {isArchived ? (
         <Notice tone="warning" className="mt-6" title="This routine is archived.">

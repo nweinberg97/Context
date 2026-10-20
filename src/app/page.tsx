@@ -123,6 +123,17 @@ export default async function LandingPage({ searchParams }: { searchParams: Prom
                 <RoutineGroup cue="After lunch" items={[{ name: "Walk", detail: "20 minutes" }]} />
                 <RoutineGroup cue="Before bed" items={[{ name: "Doorway stretch", detail: "Amount not stated" }]} />
               </div>
+              <a
+                href="/sample-routine.pdf"
+                target="_blank"
+                rel="noopener"
+                className="launch-label mt-8 inline-flex h-11 items-center gap-2 rounded-md border border-rule px-4 text-[0.75rem] text-ice transition-colors hover:border-blue-2"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14" />
+                </svg>
+                See it as a PDF
+              </a>
             </div>
           </div>
         </section>
@@ -141,8 +152,9 @@ export default async function LandingPage({ searchParams }: { searchParams: Prom
               <Step n="02" title="Approve what matters">
                 Each suggested habit shows the sentence it came from. Edit it, approve it, or leave it out.
               </Step>
-              <Step n="03" title="Follow your one-pager">
-                Today&rsquo;s routine, grouped by when you do it. Check in with a tap, fix mistakes later, or print it.
+              <Step n="03" title="Follow it, or print it">
+                Today&rsquo;s routine, grouped by when you do it. Check in with a tap, or download it as a one-page PDF for the
+                fridge.
               </Step>
             </ol>
           </div>
@@ -190,7 +202,7 @@ export default async function LandingPage({ searchParams }: { searchParams: Prom
                 <p className="launch-label text-blue-2">Available now</p>
                 <h3 className="mt-3 text-3xl font-semibold [font-stretch:112%]">Free</h3>
                 <ul className="mt-8 flex flex-col gap-3 text-ice/80">
-                  {["Paste advice from any message", "Review and approve every habit", "Daily one-pager and print view", "Optional email check-ins", "Export and delete your data"].map((f) => (
+                  {["Paste advice from any message", "Review and approve every habit", "Daily one-pager and a printable PDF", "Optional email check-ins", "Export and delete your data"].map((f) => (
                     <li key={f} className="flex gap-3">
                       <span aria-hidden="true" className="mt-2.5 size-1.5 shrink-0 bg-blue" />
                       {f}

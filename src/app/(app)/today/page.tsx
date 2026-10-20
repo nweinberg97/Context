@@ -36,6 +36,7 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
       routines={routines.filter((r) => r.habits.length > 0)}
       events={events}
       banner={params.saved ? "saved" : null}
+      savedRoutineId={params.saved ?? null}
       remindersOn={Boolean(reminders?.enabled)}
     />
   );

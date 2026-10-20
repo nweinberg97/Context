@@ -20,6 +20,7 @@ Be honest with yourself about this table before deploying.
 | Habit extraction | ✅ Rule-based reader (**not AI**, labelled as such) | AI extraction: `ANTHROPIC_API_KEY` | |
 | Review: edit / approve / leave out / add your own | ✅ | | |
 | Today one-pager, completion, corrections, history, print | ✅ | | |
+| Routine PDF (designed, printable, one per routine) | ✅ Generated on demand at `/routines/:id/pdf`; no extra service | | |
 | Routines: create, rename, archive, restore, delete | ✅ | | |
 | Export, remove message text, delete account | ✅ | | |
 | Email check-ins | ✅ `EMAIL_PROVIDER=outbox` writes emails to `.data/outbox` | Real email: `RESEND_API_KEY`, `EMAIL_FROM`; scheduler: `CRON_SECRET` + a scheduler calling `/api/cron/dispatch` | |

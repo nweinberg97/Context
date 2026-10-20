@@ -1,8 +1,8 @@
 import Link from "next/link";
 import type { CompletionState, HabitEvent, RoutineWithHabits } from "@/lib/domain/types";
 import { habitDetails, groupKey, groupRank } from "../habits/format";
-import { IconAdd, IconBell } from "../icons";
-import { Chip, LinkButton, Notice, cx } from "../ui";
+import { IconAdd, IconBell, IconDownload } from "../icons";
+import { Chip, LinkButton, Notice, buttonClass, cx } from "../ui";
 import { CompletionControl } from "./completion";
 import { PrintButton } from "./print-button";
 
@@ -13,6 +13,8 @@ export interface TodayViewProps {
   routines: RoutineWithHabits[];
   events: HabitEvent[];
   banner?: "saved" | null;
+  /** The routine that was just saved, for the PDF link in the banner. */
+  savedRoutineId?: string | null;
   remindersOn: boolean;
 }
 
@@ -21,7 +23,7 @@ function formatDay(date: string, opts: Intl.DateTimeFormatOptions) {
   return new Intl.DateTimeFormat("en-US", { ...opts, timeZone: "UTC" }).format(new Date(Date.UTC(y, m - 1, d)));
 }
 
-export function TodayView({ date, today, days, routines, events, banner, remindersOn }: TodayViewProps) {
+export function TodayView({ date, today, days, routines, events, banner, savedRoutineId, remindersOn }: TodayViewProps) {
   const habits = routines.flatMap((r) => r.habits.map((h) => ({ ...h, routineTitle: r.title })));
   const isToday = date === today;
   const stateFor = (habitId: string, day: string): CompletionState | null =>
@@ -59,6 +61,15 @@ export function TodayView({ date, today, days, routines, events, banner, reminde
       {banner === "saved" ? (
         <Notice tone="success" className="no-print mb-8" title="Routine saved.">
           It&rsquo;s on your page below. Check things off as you go — anything you don&rsquo;t report just stays blank.
+          {savedRoutineId && routines.some((r) => r.id === savedRoutineId) ? (
+            <>
+              {" "}
+              <a href={`/routines/${savedRoutineId}/pdf`} className="font-semibold underline underline-offset-4">
+                Download it as a PDF
+              </a>
+              .
+            </>
+          ) : null}
         </Notice>
       ) : null}
 
@@ -157,6 +168,11 @@ export function TodayView({ date, today, days, routines, events, banner, reminde
       </div>
 
       <footer className="no-print mt-12 flex flex-wrap items-center gap-3 border-t border-line pt-6">
+        {routines.map((r) => (
+          <a key={r.id} href={`/routines/${r.id}/pdf`} className={buttonClass("primary")}>
+            <IconDownload size={18} /> {multipleRoutines ? `${r.title} PDF` : "Download PDF"}
+          </a>
+        ))}
         <PrintButton />
         <LinkButton href="/routines" variant="ghost">Edit routines</LinkButton>
         <LinkButton href="/settings#reminders" variant="ghost">

@@ -109,6 +109,8 @@ const pages = await render();
 
 const ROUTES = [
   [/^\/$/, "index.html"],
+  [/^\/sample-routine\.pdf$/, "sample-routine.pdf"],
+  [/^\/routines\/[^/]+\/pdf/, "sample-routine.pdf"],
   [/^\/sign-up/, "sign-up.html"],
   [/^\/sign-in/, "sign-in.html"],
   [/^\/onboarding/, "import.html"],
@@ -158,5 +160,6 @@ ${isLanding ? '<script src="hero.js" defer></script>' : ""}
   fs.writeFileSync(path.join(OUT, page.file), html);
 }
 fs.copyFileSync(path.join(ROOT, "src/app/icon.svg"), path.join(OUT, "icon.svg"));
+fs.copyFileSync(path.join(ROOT, "public/sample-routine.pdf"), path.join(OUT, "sample-routine.pdf"));
 fs.writeFileSync(path.join(OUT, ".nojekyll"), "");
 console.info(`Demo built: ${pages.length} pages in ${path.relative(process.cwd(), OUT) || "."}`);

@@ -12,7 +12,8 @@ import { HabitRow } from "@/components/habits/habit-row";
 import { ReviewCard } from "@/components/habits/review-card";
 import { SourceText } from "@/components/habits/source-text";
 import { TodayView } from "@/components/today/today-view";
-import { Notice, PageHeader, Wordmark } from "@/components/ui";
+import { IconDownload } from "@/components/icons";
+import { Notice, PageHeader, Wordmark, buttonClass } from "@/components/ui";
 import type { Habit, HabitEvent, RoutineWithHabits } from "@/lib/domain/types";
 import type { ReactNode } from "react";
 
@@ -166,7 +167,7 @@ export async function demoPages(): Promise<DemoPage[]> {
       path: "/today",
       element: (
         <AppShell status={status}>
-          <TodayView date={TODAY} today={TODAY} days={days} routines={routines} events={events} banner="saved" remindersOn={false} />
+          <TodayView date={TODAY} today={TODAY} days={days} routines={routines} events={events} banner="saved" savedRoutineId="r1" remindersOn={false} />
         </AppShell>
       ),
     },
@@ -178,6 +179,12 @@ export async function demoPages(): Promise<DemoPage[]> {
         <AppShell status={status}>
           <h1 className="text-title">Neck &amp; shoulders</h1>
           <p className="mt-3 text-muted">From Marina Chen, Northside Physio</p>
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <a href="/routines/r1/pdf" className={buttonClass("primary")}>
+              <IconDownload size={18} /> Download PDF
+            </a>
+            <span className="text-sm text-muted">One page with your approved habits, in the advisor&rsquo;s words, ready to print.</span>
+          </div>
           <div className="mb-4 mt-10 flex flex-wrap items-baseline justify-between gap-2">
             <h2 className="text-heading">Habits</h2>
             <p className="text-sm text-muted">Last 14 days · blank means not reported</p>
