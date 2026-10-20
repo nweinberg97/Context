@@ -33,18 +33,23 @@ test("core journey: import, review, approve, follow, correct", async ({ page }) 
   // Nothing can be saved before something is approved.
   await expect(page.getByRole("button", { name: /Save routine/ })).toBeDisabled();
 
+  // Each change is saved on the server; let one finish before starting the next.
   await chin.getByRole("button", { name: "Approve" }).click();
-  await expect(chin.getByText("Approved")).toBeVisible();
+  await expect(chin.getByText("Approved")).toBeVisible({ timeout: 15_000 });
+  await page.waitForLoadState("networkidle");
   await breathing.getByRole("button", { name: "Not a habit" }).click();
-  await expect(breathing.getByText("Left out")).toBeVisible();
+  await expect(breathing.getByText("Left out")).toBeVisible({ timeout: 15_000 });
+  await page.waitForLoadState("networkidle");
 
   // Edit the doorway stretch to fill in a missing detail, then approve it.
   const doorway = page.getByRole("article", { name: /doorway stretch/i });
   await doorway.getByRole("button", { name: "Edit" }).click();
   await doorway.getByLabel("How much").fill("30 seconds");
   await doorway.getByRole("button", { name: "Save changes" }).click();
-  await expect(doorway.getByText("(your words)")).toBeVisible();
+  await expect(doorway.getByText("(your words)")).toBeVisible({ timeout: 15_000 });
+  await page.waitForLoadState("networkidle");
   await doorway.getByRole("button", { name: "Approve" }).click();
+  await expect(doorway.getByText("Approved")).toBeVisible({ timeout: 15_000 });
 
   await page.getByLabel("Routine name").fill("Neck & shoulders");
   await page.getByRole("button", { name: /Save routine · 2 habits/ }).click();
@@ -60,6 +65,7 @@ test("core journey: import, review, approve, follow, correct", async ({ page }) 
   const done = page.getByRole("group", { name: /Chin tucks/ }).getByRole("button", { name: "Done" });
   await done.click();
   await expect(done).toHaveAttribute("aria-pressed", "true");
+  await page.waitForLoadState("networkidle");
 
   // Persists across reloads.
   await page.reload();
@@ -68,6 +74,7 @@ test("core journey: import, review, approve, follow, correct", async ({ page }) 
 
   // Correcting: pressing Done again clears it back to unreported.
   await page.getByRole("group", { name: /Chin tucks/ }).getByRole("button", { name: "Done" }).click();
+  await page.waitForLoadState("networkidle");
   await page.reload();
   await expect(page.getByRole("group", { name: /Chin tucks/ }).getByRole("button", { name: "Done" })).toHaveAttribute("aria-pressed", "false");
   await expect(page.getByText("0 of 2 checked in")).toBeVisible();
