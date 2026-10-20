@@ -143,7 +143,7 @@ function splitSentences(body: string): string[] {
 function makeName(sentence: string, cue: string | null, freq: Frequency | null, qty: Quantity | null, dur: Duration | null): string {
   let s = sentence.replace(new RegExp(`^${LEAD_INS}`, "i"), "");
   // "Try the X" → "the X"
-  s = s.replace(/^try\s+(?=(the|a|an|your|some)\b)/i, "");
+  s = s.replace(/^(try|do|perform|complete|repeat)\s+(?=(the|a|an|your|some|my)\b)/i, "");
   for (const part of [cue, freq?.text, qty?.text, dur?.text]) {
     if (part) s = s.replace(part, " ");
   }

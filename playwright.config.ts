@@ -18,6 +18,7 @@ const env = {
   EXTRACTION_PROVIDER: "rules",
   EMAIL_PROVIDER: "outbox",
   CRON_SECRET: "e2e-cron-secret-0123456789",
+  RATE_LIMIT_SCALE: "100",
   NEXT_PUBLIC_SUPABASE_URL: "",
   NEXT_PUBLIC_SUPABASE_ANON_KEY: "",
 };

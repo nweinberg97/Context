@@ -28,7 +28,10 @@ export async function clientIpKey(): Promise<string> {
 
 /** Returns true when the action is allowed; increments the counter either way. */
 export async function rateLimit(name: LimitName, subject: string): Promise<boolean> {
-  const { max, windowSeconds } = LIMITS[name];
+  const { windowSeconds } = LIMITS[name];
+  // Test environments raise limits (many sign-ups from one IP); production uses 1.
+  const scale = Math.max(1, Number(process.env.RATE_LIMIT_SCALE ?? 1) || 1);
+  const max = LIMITS[name].max * scale;
   const key = `${name}:${subject}`;
   return withSystem(async (tx) => {
     const row = await tx.one<{ count: number }>(

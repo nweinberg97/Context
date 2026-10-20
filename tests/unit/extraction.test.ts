@@ -64,6 +64,11 @@ describe("rule-based extractor + guard (brief example)", () => {
 });
 
 describe("extraction", () => {
+  it("names habits from the object, not the verb", () => {
+    const out = extractWithRules("Do the chin tucks, 2 x 10, every morning. Try the doorway stretch before bed.");
+    assert.deepEqual(out.candidates.map((c) => c.name), ["Chin tucks", "Doorway stretch"]);
+  });
+
   it("handles an explicit daily action with a quantity", async () => {
     const r = await runExtraction(rulesProvider, input("Do 3 sets of 10 squats every day."));
     const c = r.candidates[0]!;
