@@ -35,6 +35,8 @@ export async function importAdvice(page: Page, text = ADVICE, title = "Physio â€
   await page.getByLabel("Title (optional)").fill(title);
   await page.getByRole("button", { name: "Find the habits" }).click();
   await expect(page).toHaveURL(/\/review\//);
+  // Let the review page finish loading and hydrating before interacting with it.
+  await page.waitForLoadState("networkidle");
 }
 
 export async function newUserWithRoutine(page: Page, label: string) {
@@ -42,8 +44,9 @@ export async function newUserWithRoutine(page: Page, label: string) {
   await signUp(page, email);
   await completeOnboarding(page);
   await importAdvice(page);
-  await page.getByRole("article", { name: "Chin tucks" }).getByRole("button", { name: "Approve" }).click();
-  await expect(page.getByRole("article", { name: "Chin tucks" }).getByText("Approved")).toBeVisible({ timeout: 15_000 });
+  const card = page.getByRole("article", { name: "Chin tucks" });
+  await card.getByRole("button", { name: "Approve" }).click();
+  await expect(card.getByText("Approved")).toBeVisible({ timeout: 15_000 });
   await page.getByRole("button", { name: /Save routine/ }).click();
   await expect(page).toHaveURL(/\/today\?saved=/);
   return email;
