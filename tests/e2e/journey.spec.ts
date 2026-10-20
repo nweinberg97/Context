@@ -101,6 +101,7 @@ test("accounts are isolated: another person's routine is not reachable by URL", 
   await newUserWithRoutine(page, "owner");
   await page.goto("/routines");
   await page.getByRole("link", { name: /Physio/ }).first().click();
+  await expect(page).toHaveURL(/\/routines\/[0-9a-f-]{36}$/);
   const routineUrl = page.url();
 
   const other = await browser.newContext();

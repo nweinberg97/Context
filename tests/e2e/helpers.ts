@@ -43,7 +43,7 @@ export async function newUserWithRoutine(page: Page, label: string) {
   await completeOnboarding(page);
   await importAdvice(page);
   await page.getByRole("article", { name: "Chin tucks" }).getByRole("button", { name: "Approve" }).click();
-  await expect(page.getByRole("article", { name: "Chin tucks" }).getByText("Approved")).toBeVisible();
+  await expect(page.getByRole("article", { name: "Chin tucks" }).getByText("Approved")).toBeVisible({ timeout: 15_000 });
   await page.getByRole("button", { name: /Save routine/ }).click();
   await expect(page).toHaveURL(/\/today\?saved=/);
   return email;

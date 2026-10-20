@@ -20,7 +20,6 @@ types.setTypeParser(1184, (value: string) => new Date(value).toISOString());
  */
 
 declare global {
-  // eslint-disable-next-line no-var
   var __contextPool: Pool | undefined;
 }
 
