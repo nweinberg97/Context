@@ -74,7 +74,7 @@ export default async function LandingPage({ searchParams }: { searchParams: Prom
         </div>
       </section>
 
-      <main id="main">
+      <main id="main" tabIndex={-1}>
         {/* ------------------------------------------------------- Showcase */}
         <section aria-labelledby="showcase-title" className="mx-auto max-w-7xl px-4 py-24 sm:px-8 sm:py-32">
           <div className="flex flex-wrap items-end justify-between gap-6">

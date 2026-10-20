@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { ADVICE, completeOnboarding, importAdvice, newUserWithRoutine, signUp, uniqueEmail } from "./helpers";
+import { ADVICE, alertBox, completeOnboarding, importAdvice, newUserWithRoutine, signUp, uniqueEmail } from "./helpers";
 
 test("landing page explains the product and links to sign-up", async ({ page }) => {
   await page.goto("/");
@@ -87,10 +87,10 @@ test("empty and oversized input show clear errors and keep the text", async ({ p
   await signUp(page, uniqueEmail("errors"));
   await completeOnboarding(page);
   await page.goto("/import");
-  await page.getByLabel("Message").fill("Hi!\n\n-- \nMarina");
+  await page.getByLabel("Message").fill("\n\nSent from my iPhone\n");
   await page.getByRole("button", { name: "Find the habits" }).click();
-  await expect(page.getByRole("alert")).toContainText("no message text");
-  await expect(page.getByLabel("Message")).toHaveValue("Hi!\n\n-- \nMarina");
+  await expect(alertBox(page)).toContainText("no message text");
+  await expect(page.getByLabel("Message")).toHaveValue("\n\nSent from my iPhone\n");
 
   await page.getByLabel("Message").fill("a".repeat(12_050));
   await expect(page.getByText(/characters over the limit/)).toBeVisible();
@@ -106,9 +106,10 @@ test("accounts are isolated: another person's routine is not reachable by URL", 
   const other = await browser.newContext();
   const otherPage = await other.newPage();
   await signUp(otherPage, uniqueEmail("intruder"));
-  const response = await otherPage.goto(routineUrl);
-  expect(response?.status()).toBe(404);
+  // Pages stream behind a loading state, so the status code can't be relied on; the content can.
+  await otherPage.goto(routineUrl);
   await expect(otherPage.getByRole("heading", { name: "Nothing here." })).toBeVisible();
+  await expect(otherPage.getByText("Physio")).toHaveCount(0);
   await otherPage.goto("/today");
   await expect(otherPage).toHaveURL(/onboarding/);
   await other.close();
@@ -148,7 +149,7 @@ test("settings: reminders opt-in, export, and account deletion", async ({ page, 
   await page.getByLabel("Email").fill(email);
   await page.getByLabel("Password").fill("correct horse battery");
   await page.getByRole("button", { name: "Sign in" }).click();
-  await expect(page.getByRole("alert")).toContainText("don't match");
+  await expect(alertBox(page)).toContainText("don't match");
 });
 
 test("signing out revokes the session", async ({ page }) => {
@@ -169,7 +170,6 @@ test("keyboard: skip link and form controls are reachable", async ({ page }) => 
   await page.keyboard.press("Tab");
   await expect(page.getByRole("link", { name: "Skip to content" })).toBeFocused();
   await page.keyboard.press("Enter");
-  await page.keyboard.press("Tab");
   await page.keyboard.press("Tab");
   await expect(page.getByLabel("Email")).toBeFocused();
 });

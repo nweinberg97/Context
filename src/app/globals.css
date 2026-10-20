@@ -105,6 +105,9 @@
     outline-offset: 3px;
     border-radius: 6px;
   }
+  main:focus {
+    outline: none;
+  }
   .on-dark :focus-visible {
     outline-color: var(--color-blue-2);
   }

@@ -49,6 +49,10 @@ export function ReviewCard({ habit, routineId, index }: { habit: Habit; routineI
 
       {editing ? (
         <div className="mt-4">
+          <h3 id={headingId} className="mb-4 text-lg font-bold break-words">
+            <span className="sr-only">Editing </span>
+            {habit.name}
+          </h3>
           <HabitForm
             habit={habit}
             action={updateHabitAction.bind(null, habit.id, routineId)}

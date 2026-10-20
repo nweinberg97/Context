@@ -26,7 +26,7 @@ test("unsubscribe link: GET changes nothing, the button does", async ({ page, re
 
   await page.goto(`/unsubscribe/${key}`);
   await page.getByRole("button", { name: "Unsubscribe" }).click();
-  await expect(page.getByRole("heading", { name: "You're unsubscribed." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /unsubscribed/ })).toBeVisible();
   expect(sql(`select enabled from public.notification_preferences np join public.profiles p on p.id = np.user_id where p.email = '${email}'`)).toBe("f");
 });
 

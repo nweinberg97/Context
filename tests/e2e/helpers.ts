@@ -48,3 +48,8 @@ export async function newUserWithRoutine(page: Page, label: string) {
   await expect(page).toHaveURL(/\/today\?saved=/);
   return email;
 }
+
+/** The page's own alert, ignoring Next.js's hidden route announcer. */
+export function alertBox(page: Page) {
+  return page.locator('[role="alert"]:not(#__next-route-announcer__)');
+}

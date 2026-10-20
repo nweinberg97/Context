@@ -19,7 +19,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           Paste what your physio, coach or tutor sent. Approve the habits. Check in each day.
         </p>
       </aside>
-      <main id="main" className="flex flex-col px-4 py-8 sm:px-10">
+      <main id="main" tabIndex={-1} className="flex flex-col px-4 py-8 sm:px-10">
         <Link href="/" aria-label="Context home" className="text-[1.75rem] lg:hidden">
           <Wordmark />
         </Link>

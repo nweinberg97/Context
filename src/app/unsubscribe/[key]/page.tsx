@@ -24,7 +24,7 @@ export default async function UnsubscribePage({ params }: { params: Promise<{ ke
   const valid = done ? true : await unsubscribeKeyExists(key);
 
   return (
-    <main id="main" className="mx-auto flex min-h-dvh max-w-lg flex-col justify-center px-4 py-16">
+    <main id="main" tabIndex={-1} className="mx-auto flex min-h-dvh max-w-lg flex-col justify-center px-4 py-16">
       <Link href="/" aria-label="Context home" className="mb-10 text-[1.75rem]"><Wordmark /></Link>
       {done ? (
         <>

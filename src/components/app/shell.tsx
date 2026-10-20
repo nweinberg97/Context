@@ -21,7 +21,7 @@ export function AppShell({ status, children }: { status: Pick<PublicStatus, "aut
           <TopNav />
         </div>
       </header>
-      <main id="main" className="mx-auto w-full max-w-5xl flex-1 px-4 pb-32 pt-8 sm:px-6 sm:pt-12 md:pb-16">
+      <main id="main" tabIndex={-1} className="mx-auto w-full max-w-5xl flex-1 px-4 pb-32 pt-8 sm:px-6 sm:pt-12 md:pb-16">
         {children}
       </main>
       <BottomNav />
