@@ -7,20 +7,23 @@ export function cx(...parts: Array<string | false | null | undefined>): string {
 
 /* ------------------------------------------------------------------ Wordmark */
 
-/** "con" + highlighted "text": the whole idea of the product, in its name. */
+/**
+ * CONTEXT, set wide. A blue rule sits under "TEXT": the part of a message that
+ * becomes the routine.
+ */
 export function Wordmark({ className, tone = "ink" }: { className?: string; tone?: "ink" | "paper" }) {
   return (
     <span
       className={cx(
-        "inline-flex items-baseline font-extrabold leading-none tracking-[-0.045em] [font-stretch:88%]",
-        tone === "paper" ? "text-paper" : "text-ink",
+        "inline-flex items-baseline font-bold uppercase leading-none tracking-[0.16em] [font-stretch:125%]",
+        tone === "paper" ? "text-ice" : "text-ink",
         className,
       )}
     >
-      con
+      <span>con</span>
       <span className="relative">
-        <span aria-hidden="true" className="absolute -inset-x-[0.05em] bottom-[0.02em] h-[0.48em] -rotate-[1.5deg] rounded-[0.22em_0.1em_0.26em_0.12em] bg-mark" />
-        <span className="relative">text</span>
+        text
+        <span aria-hidden="true" className="absolute -bottom-[0.28em] left-0 right-[0.16em] h-[0.12em] bg-blue" />
       </span>
     </span>
   );
@@ -33,10 +36,10 @@ type Size = "sm" | "md" | "lg";
 
 const VARIANTS: Record<Variant, string> = {
   primary: "bg-ink text-paper hover:bg-forest-2 active:bg-forest",
-  mark: "bg-mark text-forest hover:bg-[#f2c936] active:bg-[#e8bd27]",
+  mark: "bg-blue text-white hover:bg-[#1f57e6] active:bg-[#1849c4]",
   secondary: "bg-white text-ink border border-line-2 hover:border-ink",
   ghost: "text-ink hover:bg-ink/5",
-  danger: "bg-danger text-white hover:bg-[#843122]",
+  danger: "bg-danger text-white hover:bg-[#931c22]",
   paper: "bg-paper text-forest hover:bg-white",
 };
 const SIZES: Record<Size, string> = {
@@ -47,7 +50,7 @@ const SIZES: Record<Size, string> = {
 
 export function buttonClass(variant: Variant = "primary", size: Size = "md", extra?: string) {
   return cx(
-    "inline-flex shrink-0 items-center justify-center rounded-full font-semibold whitespace-nowrap select-none",
+    "inline-flex shrink-0 items-center justify-center rounded-md font-semibold whitespace-nowrap select-none",
     "transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-45",
     VARIANTS[variant],
     SIZES[size],

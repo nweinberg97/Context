@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#16271e",
+  themeColor: "#030509",
   width: "device-width",
   initialScale: 1,
 };
@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <link rel="preload" href="/fonts/bricolage-grotesque-latin.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/archivo-latin.woff" as="font" type="font/woff" crossOrigin="anonymous" />
       </head>
       <body className="min-h-dvh">
         <a
