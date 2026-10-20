@@ -27,6 +27,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
+          package-manager-cache: false
       - run: sudo apt-get update && sudo apt-get install -y postgresql-client
       # Switch to `npm ci` once package-lock.json is committed (first `npm install` creates it).
       - run: npm install
