@@ -23,20 +23,23 @@ jobs:
       CONTEXT_ALLOW_LOCAL_AUTH: "true"
       LOCAL_AUTH_SECRET: ci-local-auth-secret-0123456789abcdef
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
       - run: sudo apt-get update && sudo apt-get install -y postgresql-client
       # Switch to `npm ci` once package-lock.json is committed (first `npm install` creates it).
       - run: npm install
-      - run: npm run typecheck
-      - run: npm run lint
-      - run: npm run test:unit
-      - run: npm run test:db
-      - run: npm run build
+      - run: bash scripts/ci-step.sh "typecheck" npm run typecheck
+      - run: bash scripts/ci-step.sh "lint" npm run lint
+      - run: bash scripts/ci-step.sh "test:unit" npm run test:unit
+      - run: bash scripts/ci-step.sh "test:db" npm run test:db
+      - run: bash scripts/ci-step.sh "build" npm run build
       - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e
+      - run: bash scripts/ci-step.sh "test:e2e" npm run test:e2e
+      - name: Fail if any step failed
+        run: |
+          if [ -f "$RUNNER_TEMP/ci-failed-steps" ]; then echo "Failed: $(paste -sd, "$RUNNER_TEMP/ci-failed-steps")"; exit 1; fi
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
