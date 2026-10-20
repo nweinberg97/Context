@@ -24,7 +24,8 @@
     "test:unit": "tsx --test \"tests/unit/**/*.test.ts\"",
     "test:db": "bash scripts/test-db.sh",
     "test:e2e": "playwright test",
-    "check": "npm run typecheck && npm run lint && npm run test && npm run build"
+    "check": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "demo:build": "node scripts/demo/build.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",
@@ -44,6 +45,7 @@
     "@types/pg": "^8.15.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "esbuild": "^0.25.0",
     "eslint": "^9.36.0",
     "eslint-config-next": "^15.5.0",
     "prettier": "^3.6.0",

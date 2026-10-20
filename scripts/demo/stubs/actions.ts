@@ -1,0 +1,25 @@
+/** Server actions don't exist in the static demo. Forms are intercepted by demo.js. */
+type Noop = ((...args: unknown[]) => Promise<Record<string, never>>) & { bind: () => Noop };
+const noop = (async () => ({})) as Noop;
+noop.bind = () => noop;
+export const updateHabitAction = noop;
+export const setHabitStatusAction = noop;
+export const deleteHabitAction = noop;
+export const addHabitAction = noop;
+export const finishReviewAction = noop;
+export const createRoutineAction = noop;
+export const renameRoutineAction = noop;
+export const setRoutineStatusAction = noop;
+export const deleteRoutineAction = noop;
+export const recordCompletionAction = noop;
+export const importAction = noop;
+export const completeOnboardingAction = noop;
+export const saveRemindersAction = noop;
+export const pauseRemindersAction = noop;
+export const updateTimezoneAction = noop;
+export const removeSourceContentAction = noop;
+export const deleteSourceAction = noop;
+export const deleteAccountAction = noop;
+export const signOutAction = noop;
+export const signInAction = noop;
+export const signUpAction = noop;

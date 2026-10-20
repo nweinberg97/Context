@@ -12,3 +12,4 @@ test-results/
 next-env.d.ts
 preview/dist/
 .DS_Store
+demo-site/

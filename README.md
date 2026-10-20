@@ -38,6 +38,16 @@ Be honest with yourself about this table before deploying.
 
 ---
 
+## Demo site (GitHub Pages)
+
+A static, clickable demo (the landing page plus the main app screens, with sample data) is published to GitHub Pages by `.github/workflows/pages.yml` on every push to `main`. Nothing in the demo is saved; it shows what the product looks like, not a working account.
+
+- One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+- Live at `https://<owner>.github.io/<repo>/` once the workflow has run.
+- Build it locally with `npm run demo:build` (output in `demo-site/`). Fixtures live in `scripts/demo/pages.tsx`.
+
+The real app needs a server and database, so it can't run on GitHub Pages; see [Production setup](#production-setup).
+
 ## Quick start (local, free)
 
 Requirements: Node 20.18+, Docker (or any Postgres 15+), `psql` for the database tests.
